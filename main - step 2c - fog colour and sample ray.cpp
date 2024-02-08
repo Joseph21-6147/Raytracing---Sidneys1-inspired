@@ -1,8 +1,37 @@
 // Raytracing! (by Sidneys1.com)
+// =============================
+// part 2c: fog colour and sample ray
 
 // article: https://sidneys1.com/programming/2022/03/23/raytracing.html
 
-// got upto:
+// Implementation by Joseph21 - february 8, 2024
+
+// got upto and including: see the arrow (<<====) in below TOC
+
+/* Table of Contents
+ * =================
+ * What is Raytracing?
+ * How Do We Begin?
+    - Creating a new olc::PixelGameEngine Project
+ * Setting the Scene
+    - Add basic Shapes and a vector of shapes to render
+    - Add constants and a way to “Sample” single pixels
+    - Add some geometry types, enhance Shape and Sphere
+    - Add fog color and a way to sample rays               <<====
+    - Add intersection and sample methods to Shapes
+ * Rendering Shapes
+    - Implement ray-Sphere intersection
+    - Add perspective rendering and depth sorting
+    - Add a Plane Shape, and apply fog
+ * Prettying Up
+    - Add reflections
+    - Create and use a color3 type
+    - Add diffuse lighting
+    - Add shadow casting
+    - Add multisampling
+ * All Done!
+ */
+
 
 #include <optional>
 

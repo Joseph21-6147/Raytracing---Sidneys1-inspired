@@ -1,6 +1,6 @@
 // Raytracing! (by Sidneys1.com)
 // =============================
-// part 3a: ray-sphere intersection
+// part 3b2: multiple spheres - corrected
 
 // article: https://sidneys1.com/programming/2022/03/23/raytracing.html
 
@@ -20,8 +20,8 @@
     - Add fog color and a way to sample rays
     - Add intersection and sample methods to Shapes
  * Rendering Shapes
-    - Implement ray-Sphere intersection                <<====
-    - Add perspective rendering and depth sorting
+    - Implement ray-Sphere intersection
+    - Add perspective rendering and depth sorting        <<====
     - Add a Plane Shape, and apply fog
  * Prettying Up
     - Add reflections
@@ -46,7 +46,6 @@ constexpr int PIXEL_Y = 2;
 // Half the game width and height (to identify the center of the screen)
 constexpr float HALF_WIDTH  = WIDTH  / 2.0f;
 constexpr float HALF_HEIGHT = HEIGHT / 2.0f;
-
 
 // struct to describe a 3D floating point vector
 struct vf3d {
@@ -76,7 +75,6 @@ struct ray {
     // add explicit constructor that initializes origin and direction
     constexpr ray( const vf3d _origin, const vf3d _direction ) : origin( _origin ), direction( _direction ) {}
 };
-
 
 class Shape {
 public:
@@ -119,6 +117,7 @@ public:
 };
 
 
+
 class RayTracer : public olc::PixelGameEngine {
 
 public:
@@ -135,7 +134,11 @@ private:
 public:
     bool OnUserCreate() override {
 
-        shapes.emplace_back( std::make_unique<Sphere>(vf3d(0, 0, 200), olc::GREY, 100 ));
+        shapes.emplace_back( std::make_unique<Sphere>( vf3d(    0,   0,  200 ), olc::GREY,  100.0f ));
+        // add some additional Spheres at different positions
+        shapes.emplace_back( std::make_unique<Sphere>( vf3d( -150, +75, +300 ), olc::RED,   100.0f ));
+        shapes.emplace_back( std::make_unique<Sphere>( vf3d( +150, -75, +100 ), olc::GREEN, 100.0f ));
+
         return true;
     }
 
@@ -190,11 +193,12 @@ public:
 
     olc::Pixel rtSample( float x, float y ) const {
         // create a ray casting into the scene from this "pixel"
-		ray sample_ray({ x, y, 0 }, { 0, 0, 1 });
+        ray sample_ray({ x, y, 0 }, { 0, 0, 1 });
         // sample this ray - if the ray doesn't hit anything, use the color of the fog
 
         return SampleRay( sample_ray ).value_or( FOG );
     }
+
 
     bool OnUserDestroy() override {
         // your clean up code here

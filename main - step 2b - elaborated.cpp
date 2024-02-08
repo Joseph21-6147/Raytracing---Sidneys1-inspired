@@ -1,8 +1,36 @@
 // Raytracing! (by Sidneys1.com)
+// =============================
+// part 2b: elaborated shapes and rendering
 
 // article: https://sidneys1.com/programming/2022/03/23/raytracing.html
 
-// got upto:
+// Implementation by Joseph21 - february 8, 2024
+
+// got upto and including: see the arrow (<<====) in below TOC
+
+/* Table of Contents
+ * =================
+ * What is Raytracing?
+ * How Do We Begin?
+    - Creating a new olc::PixelGameEngine Project
+ * Setting the Scene
+    - Add basic Shapes and a vector of shapes to render
+    - Add constants and a way to “Sample” single pixels
+    - Add some geometry types, enhance Shape and Sphere    <<====
+    - Add fog color and a way to sample rays
+    - Add intersection and sample methods to Shapes
+ * Rendering Shapes
+    - Implement ray-Sphere intersection
+    - Add perspective rendering and depth sorting
+    - Add a Plane Shape, and apply fog
+ * Prettying Up
+    - Add reflections
+    - Create and use a color3 type
+    - Add diffuse lighting
+    - Add shadow casting
+    - Add multisampling
+ * All Done!
+ */
 
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
@@ -95,7 +123,7 @@ public:
 		// Create a ray casting into the scene from this "pixel".
 		ray sample_ray({ x, y, 0 }, { 0, 0, 1 });
 		// TODO: We now need to test if this ray hits any Shapes and produces
-		//       a color.    	
+		//       a color.
 
         // Called to get the color of a specific point on the screen
         // For now we're returning a color based on the screen coordinates.
